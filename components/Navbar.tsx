@@ -3,35 +3,39 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
+const navLinks = [
+  { href: '/', label: 'Home Page' },
+  { href: '/list', label: 'Students List' },
+  { href: '/add', label: 'Add Students' },
+]
+
 function Navbar() {
   const pathname = usePathname()
 
-  const navLinks = [
-    { href: '/', label: 'Home Page' },
-    { href: '/list', label: 'Students List' },
-    { href: '/add', label: 'Add Students' },
-  ]
-
   return (
-    <div className='bg-amber-300 sticky top-0 h-15 flex justify-around items-center py-4'>
-      <div>
-        <h1 className='text-2xl font-bold'>Pars Tadvin Technical Task</h1>
+    <nav className="bg-amber-300 sticky top-0 flex flex-col md:flex-row items-center justify-between md:justify-around px-4 py-4 shadow-sm">
+      <h1 className="text-2xl font-bold text-center">Pars Tadvin Technical Task</h1>
+
+      <div className="flex flex-wrap gap-4 items-center mt-2 md:mt-0">
+        <span className="font-medium">Navigation:</span>
+        {navLinks.map(({ href, label }) => {
+          const isActive = pathname === href
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`transition-all duration-200 ${
+                isActive
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 font-semibold'
+                  : 'text-gray-700 hover:text-indigo-500'
+              }`}
+            >
+              {label}
+            </Link>
+          )
+        })}
       </div>
-      <div className='flex w-1/4 justify-between items-center'>
-        <p>Navigation:</p>
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`hover:text-indigo-500 ${
-              pathname === link.href ? 'border-b-2 border-indigo-500 text-indigo-500 font-semibold' : ''
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </div>
-    </div>
+    </nav>
   )
 }
 
