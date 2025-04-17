@@ -27,7 +27,8 @@ export default function Page() {
       autoClose: 5000,
     })
       const localData = await getDataFromLocalStorage()
-      saveDataToLocalStorage([...localData, data])
+      const finaldata = { id:localData.length + 1,...data}
+      saveDataToLocalStorage([...localData, finaldata])
     reset()
   }
 
@@ -42,7 +43,7 @@ export default function Page() {
         <input {...register('last_name')} placeholder="Last Name" className="border p-2" />
         <p className="text-red-500 text-sm">{errors.last_name?.message}</p>
 
-        <input {...register('national_code')} placeholder="National Code" className="border p-2" />
+        <input {...register('national_code')} maxLength={10} placeholder="National Code" className="border p-2" />
         <p className="text-red-500 text-sm">{errors.national_code?.message}</p>
 
         <input {...register('phone')} maxLength={11} placeholder="Phone Number" className="border p-2" />
