@@ -6,6 +6,7 @@ import { studentSchema } from '@/lib/studentSchema'
 import * as yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { getDataFromLocalStorage, saveDataToLocalStorage } from '@/lib/localStorageUtils'
 
 type FormData = yup.InferType<typeof studentSchema>
 
@@ -20,11 +21,13 @@ export default function Page() {
     resolver: yupResolver(studentSchema),
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     toast.success('Student Added Successfully!', {
       position: 'bottom-center',
       autoClose: 5000,
     })
+      const localData = await getDataFromLocalStorage()
+      saveDataToLocalStorage([...localData, data])
     reset()
   }
 
@@ -48,7 +51,7 @@ export default function Page() {
         <input type="number" {...register('score')} placeholder="Score" className="border p-2" />
         <p className="text-red-500 text-sm">{errors.score?.message}</p>
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition-all">Submit</button>
       </form>
     </>
   )

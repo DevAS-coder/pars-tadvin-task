@@ -13,7 +13,7 @@ export async function getDataFromLocalStorage() {
   }
 }
 
-export async function saveDataToLocalStorage(students: { students: student[] }) {
+export async function saveDataToLocalStorage(students:  student[] ) {
   localStorage.setItem("students", JSON.stringify(students));
 }
 
